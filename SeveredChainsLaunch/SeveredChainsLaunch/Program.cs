@@ -25,7 +25,7 @@
             }
             catch
             {
-                string appName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+                string appName = System.Reflection.Assembly.GetExecutingAssembly()?.GetName()?.Name ?? string.Empty;
                 System.Windows.Forms.MessageBox.Show($"'{appName}.exe' needs to be in the same directory as 'launch.bat'", 
                                                      "File not found", 
                                                      System.Windows.Forms.MessageBoxButtons.OK, 
