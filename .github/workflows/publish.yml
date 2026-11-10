@@ -1,0 +1,27 @@
+name: Build .NET 2.0 Application
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v2
+      with:
+        nuget-version: 'latest'
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Restore NuGet Packages
+      run: nuget restore SeveredChainsLaunch\SeveredChainsLaunch.sln
+
+    - name: Build Solution
+      run: msbuild SeveredChainsLaunch\SeveredChainsLaunch.sln /p:Configuration=Release /p:TargetFrameworkVersion=v2.0
