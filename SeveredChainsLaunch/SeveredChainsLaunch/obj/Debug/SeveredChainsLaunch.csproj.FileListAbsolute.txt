@@ -1,6 +1,0 @@
-C:\Users\frank\Desktop\Projects\SeveredChainsLaunch\SeveredChainsLaunch\bin\Debug\SeveredChainsLaunch.exe
-C:\Users\frank\Desktop\Projects\SeveredChainsLaunch\SeveredChainsLaunch\bin\Debug\SeveredChainsLaunch.pdb
-C:\Users\frank\Desktop\Projects\SeveredChainsLaunch\SeveredChainsLaunch\obj\Debug\SeveredChainsLaunch.csproj.AssemblyReference.cache
-C:\Users\frank\Desktop\Projects\SeveredChainsLaunch\SeveredChainsLaunch\obj\Debug\SeveredChainsLaunch.csproj.CoreCompileInputs.cache
-C:\Users\frank\Desktop\Projects\SeveredChainsLaunch\SeveredChainsLaunch\obj\Debug\SeveredChainsLaunch.exe
-C:\Users\frank\Desktop\Projects\SeveredChainsLaunch\SeveredChainsLaunch\obj\Debug\SeveredChainsLaunch.pdb
