@@ -24,4 +24,4 @@ jobs:
       run: nuget restore SeveredChainsLaunch\SeveredChainsLaunch.sln
 
     - name: Build Solution
-      run: msbuild SeveredChainsLaunch\SeveredChainsLaunch.sln /p:Configuration=Release /p:TargetFrameworkVersion=v2.0
+      run: msbuild SeveredChainsLaunch\SeveredChainsLaunch.sln /p:Configuration=Release /p:TargetFrameworkVersion=v4.8
