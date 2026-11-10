@@ -1,51 +1,71 @@
-﻿namespace SeveredChainsLaunch
+﻿using System.Runtime.InteropServices;
+using System;
+using System.IO;
+using System.Diagnostics;
+using System.Windows.Forms;
+using System.ComponentModel;
+
+namespace SeveredChainsLaunch
 {
     internal class Program
     {
-        [System.Runtime.InteropServices.DllImport("kernel32.dll")]
-        static extern System.IntPtr GetConsoleWindow();
+        [DllImport("kernel32.dll")]
+        static extern IntPtr GetConsoleWindow();
 
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        static extern bool ShowWindow(System.IntPtr hWnd, int nCmdShow);
+        [DllImport("user32.dll")]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool DeleteFile(string lpFileName);
 
         private const int SW_HIDE = 0;
 
         private const string BAT_NAME = "launch.bat";
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             try
             {
-                System.IntPtr handle = GetConsoleWindow();
+                IntPtr handle = GetConsoleWindow();
                 ShowWindow(handle, SW_HIDE);
             }
             catch { }
 
             try
             {
-                System.Diagnostics.Process.Start(BAT_NAME);
+                UnblockFile(BAT_NAME);
+                Process.Start(BAT_NAME);
             }
-            catch (System.ComponentModel.Win32Exception ex) when (ex.NativeErrorCode == 2)
+            catch (Win32Exception ex) when (ex.NativeErrorCode == 2)
             {
-                string appName = System.Diagnostics.Process.GetCurrentProcess().ProcessName;
-                System.Windows.Forms.MessageBox.Show($"'{appName}.exe' needs to be in the same directory as '{BAT_NAME}'",
-                                                     "File not found",
-                                                     System.Windows.Forms.MessageBoxButtons.OK,
-                                                     System.Windows.Forms.MessageBoxIcon.Error);
+                string appName = Process.GetCurrentProcess().ProcessName;
+                MessageBox.Show($"'{appName}.exe' needs to be in the same directory as '{BAT_NAME}'",
+                                $"File not found",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
             }
-            catch (System.ComponentModel.Win32Exception ex) when (ex.NativeErrorCode == 1223)
+            catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
             {
                 //Display nothing because the user manually canceled another dialog box
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show($"An unknown error occured:\n{ex.StackTrace}",
-                                                     "Error",
-                                                     System.Windows.Forms.MessageBoxButtons.OK,
-                                                     System.Windows.Forms.MessageBoxIcon.Error);
+                MessageBox.Show($"An unknown error occured:\n{ex.StackTrace}",
+                                $"Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
             }
+            finally
+            {
+                Environment.Exit(0);
+            }
+        }
 
-            System.Environment.Exit(0);
+        private static bool UnblockFile(string filePath)
+        {
+            string zoneStreamPath = $"{filePath}:Zone.Identifier";
+            return DeleteFile(zoneStreamPath); // Returns true if the file was blocked
         }
     }
 }
